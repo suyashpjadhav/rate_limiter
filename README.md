@@ -5,7 +5,7 @@ To ensure thread-safe execution when multiple threads call `allowRequest()` simu
 
 *   **Atomicity Through Mutual Exclusion:** Inside `allowRequest()`, the very first operation is acquiring a `mutex` via a `lock_guard`. This creates a critical section, ensuring that only one thread can inspect, evict, or append timestamps to the queue at any given moment.
 *   **RAII Compliance:** By using `lock_guard`, the mutex is tied to the scope of the function. It automatically releases the lock when the function finishes (whether it returns `true` or `false`) or if an exception occurs, ensuring that the lock is not accidentally left locked.
-*   **Monotonic Clock:** I used `steady_clock` instead of the system wall-clock. This prevents thread-safety and logic issues that could occur if the operating system's time is adjusted mid-execution.
+*   **Monotonic Clock:** I used `steady_clock` instead of the system wall-clock.  This provides monotonically increasing timestamps, making it suitable for measuring elapsed time. Unlike `system_clock`, it is not affected by system wall-clock adjustments.
 
 ## Algorithm and Complexity
 
